@@ -1,0 +1,11 @@
+{
+  "manifest_version": 2,
+  "name": "Network Response Logger",
+  "version": "1.0",
+  "permissions": ["webRequest", "tabs"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "devtools_page": "devtools.html"
+}
