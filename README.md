@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 4. Set env variables for the flask server app:
 ```
-export FLASK_APP=app.py
+export FLASK_APP=receiver.py
 export FLASK_ENV=development
 export CHAT_FILE_PATH=/path/to/chat_log
 flask run
