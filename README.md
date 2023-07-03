@@ -6,7 +6,7 @@ This is a simple Firefox browser extension and accompanying Flask app that allow
 
 1. Clone the repository:
 ```
-git clone https://github.com/your-username/my-flask-app.git
+git clone https://github.com/denialofself/ext-prototype.git
 ```
 
 2. Install python requirements:
