@@ -10,4 +10,9 @@ socket.on('image_updated', function(data) {
     image.src = data.image_url;
     mediaContainer.innerHTML = '';
     mediaContainer.appendChild(image);
+    // Remove the image after 5 seconds
+    setTimeout(function() {
+        mediaContainer.innerHTML = '';
+        location.reload();
+    }, 5000);
 });

@@ -2,8 +2,6 @@
 
 Flask socket.io is used to respond to API events with changes to the browser side javascript.
 
-GitHub Copilot: Sure! Here's the documentation in Markdown format:
-
 ## Starting the Flask Server
 
 1. Open a terminal window and navigate to the directory containing the `control.py` file.
@@ -14,24 +12,15 @@ GitHub Copilot: Sure! Here's the documentation in Markdown format:
    python control.py
    ```
 
-   This will start the server and listen for incoming requests on `http://localhost:5000`.
+   This will start both the flask server and a background socket thread. The background thread listens for socket communication on `localhost:8000`; configured on line 36 of control.py
 
 3. Open a web browser and navigate to `http://localhost:5000` to view the home page.
 
-## Testing the `display_image` Command with `curl`
+## Testing the `display_image` Command with `Test-SocketServer.ps1`
+1. Drop an image .jpg into the static directory. The Flask server operates by using a long-lived websocket to the `display_responder.js` file loaded by the browser when the route `http://localhost:5000` is loaded. When Flask receives data from the tcp socket server thread it will emit an event to the client side javascript. 
 
-1. Open a terminal window and run the following command to send a `POST` request to the `/update` endpoint of the Flask server:
+2. Run the powershell script `Test-SocketServer.ps1`
 
-   ```
-   curl -X POST -H "Content-Type: application/json" -d '{"command": "display_image", "image_url": "https://i.imgur.com/8TtzUNt.jpeg"}' http://localhost:5000/update
-   ```
+3. The socket server will receive the request, drop the data onto the data_queue Queue() and then a separate background thread reads the queue and POSTS to the flask server to emit events to the client side javascript
 
-   This will send a `POST` request to the Flask server with a JSON payload containing the `command` field set to `"display_image"`, and the `image_url` field set to `"https://example.com/image.jpg"`.
-
-2. The Flask server will receive the request and emit an `image_updated` event to all connected clients using SocketIO.
-
-3. The client-side JavaScript code that we discussed earlier will receive the `image_updated` event and update the `media-container` div with the new image.
-
-4. Refresh the web browser to see the updated `media-container` div with the new image.
-
-I hope this helps! Let me know if you have any other questions.
+3. The client-side JavaScript code in the file `display_responder.js` receive the `image_updated` event and update the `media-container` div with the new image, set a 5 second timer to clear then image, then continue to process events it receives from the Flask server.
